@@ -8,29 +8,126 @@
     
   </head>
 
-  <body>
+  <body style="display: flex; flex-direction: row; justify-content: center; ">
 
-
-    <div id="loginDiv" style="display: flex; flex-direction: column; width: 15%;">
-
-      <input type="text" id="username" placeholder="username">
-      <input type="text" id="personalInfo" placeholder="name">
-      <input type="text" id="passwordOne" placeholder="password">
-      <input type="text" id="passwordTwo" placeholder="password check">
-      <h1 id="testName">here</h1>
-      <h1 id="test2Name">heree</h1>
+    
+    <div id="loginDiv" style="display: flex; flex-direction: column;">
       
+      <form style="display: flex; flex-direction: column; justify-content: center;">
+        <h1>Create account</h1>
+        
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <p class = "expressions">Username must be atleast 2 letters long, start with letter and end with number</p>
+          <p class = "expressions">Password must be atleast 6 letters long, can only consist letters and numbers</p>
+          <p class = "makeitright" style="color:red;"></p>
+          <p class = "makeitright2 "  style="color:red;"></p>
+          <input style="width: 20%;" type="text" class="username" placeholder="username">
+          <input style="width: 20%;" type="text" class="personalInfo" placeholder="name" value="anonymos">
+          <input style="width: 20%;" type="password" class="passwordOne" placeholder="password">
+          <input style="width: 20%;" type="password" class="passwordTwo" placeholder="password check">
+        </div>
+      <button class="btn" style="width: 15%;">submit</button>
       
+      <h1></h1>
+      </form>
+      <div class="regularExpressions" style="display: none;">
+        <p>Copy your text here to get how many words it contains</p>
+        <input class="howMany" type="textbox"></input>
+        <button class="process">Process</button>
+        <input class="answer1" type="text" style="width: 10%;">
+      
+      </div>
 
       </div>
       
-      <div id="regulerExpressions">
-
-      <h1>requesting data from server</h1>
-
+      
+      
     <script>
-    const h1E = document.querySelector('h1');
-    h1E.textContent = 'h1h1h1h1';
+      
+        const inputUsername = document.querySelector('.username');
+        const inputPersonal = document.querySelector('.personalInfo');
+        const inputPasswordOne = document.querySelector('.passwordOne');
+        const inputPasswordTwo = document.querySelector('.passwordTwo');
+        const loginDiv = document.querySelector('.loginDiv');
+        const btn = document.querySelector('.btn');
+        const form = document.querySelector('form');
+        const h1E1 = document.querySelector('.makeitright');
+        const h1E2 = document.querySelector('.makeitright2');
+        const howMany = document.querySelector('.howMany');
+        const answer1 = document.querySelector('.answer1');
+              answer1.disabled = true;
+        const process = document.querySelector('.process');
+        const regexDiv = document.querySelector('.regularExpressions');
+
+       
+        
+        let nameRegex = /^[a-z]+\d+$/;
+        let passRegex = /^\w\w\w\w\w+\w$/;
+       
+        let numberX = 0;
+
+        // loginform function //
+        let loginform = function(ev) {
+          
+          let usernameValue = inputUsername.value;
+          let pass1Value = inputPasswordOne.value;
+          let pass2Value = inputPasswordTwo.value;
+          let personalName = inputPersonal.value;
+          console.log(usernameValue);
+          if (nameRegex.test(usernameValue)) {
+            
+            numberX++;
+            
+          } else{
+            h1E1.textContent = 'Name not perfect!';
+            numberX = 0;
+          };
+          if (passRegex.test(pass1Value) && pass1Value === pass2Value) {
+            
+            numberX++;
+          } else {
+            h1E2.textContent = 'Pass not perfect!';
+            numberX = 0;
+          };
+          if (numberX === 2) {
+            displayNone();
+            alert('Account created. Hello ' + personalName + '!');
+            
+            numberX = 0;
+            
+          };
+          inputUsername.value = '';
+          inputPasswordOne.value = '';
+          inputPasswordTwo.value = '';
+          
+          ev.preventDefault();
+        };
+        
+        // howMany function //
+        
+        let howManyFun = function() {
+
+          let howManyValue = howMany.value;
+          let howManyRegex = /\w+/gi;
+          let answer = howManyValue.match(howManyRegex).length;
+          console.log(answer);
+          answer1.value = answer;
+
+          
+
+        };
+        // junk //
+        let displayNone = function() {
+          regexDiv.style.display = 'block';
+          form.style.display = 'none';
+        };
+
+        // Event listeners //
+        btn.addEventListener('click', loginform);
+        process.addEventListener('click', howManyFun);
+        
+
+
     </script>
   </body>
 </html>
